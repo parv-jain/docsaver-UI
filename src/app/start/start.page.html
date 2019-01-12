@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>DocSaver</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="userAction">
+    <ion-segment-button value="signIn">
+      Sign In
+    </ion-segment-button>
+    <ion-segment-button value="signUp">
+      Sign Up
+    </ion-segment-button>
+  </ion-segment>    
+  <div [ngSwitch]="userAction">
+    <div *ngSwitchCase="'signIn'">
+      <form [formGroup]="signInForm" (ngSubmit)="signIn()">
+        <ion-card>
+          <ion-card-header text-center>
+            <ion-card-title>Sign in</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="floating">Email <span style="color: red">*</span></ion-label>
+              <ion-input required type="text" formControlName="email"></ion-input>
+            </ion-item>      
+            <ion-item>
+              <ion-label position="floating">Password <span style="color: red">*</span></ion-label>
+              <ion-input required type="password" formControlName="password"></ion-input>
+            </ion-item> 
+            <br> 
+            <ion-button type="submit" size="small" [disabled]="!signInForm.valid">Sign in</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </form>
+    </div>
+    <div *ngSwitchCase="'signUp'">
+      <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+        <ion-card>
+          <ion-card-header text-center>
+            <ion-card-title>Sign up</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="floating">Name <span style="color: red">*</span></ion-label>
+              <ion-input required type="text" formControlName="name"></ion-input>
+            </ion-item>    
+            <ion-item>
+              <ion-label position="floating">Email <span style="color: red">*</span></ion-label>
+              <ion-input required type="text" formControlName="email"></ion-input>
+            </ion-item>      
+            <ion-item>
+              <ion-label position="floating">Password <span style="color: red">*</span></ion-label>
+              <ion-input required type="password" formControlName="password"></ion-input>
+            </ion-item> 
+            <br> 
+            <ion-button type="submit" size="small" [disabled]="!signUpForm.valid">Sign up</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </form>
+    </div>
+  </div>
+
+</ion-content>
