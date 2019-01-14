@@ -30,7 +30,7 @@
               <ion-input required type="password" formControlName="password"></ion-input>
             </ion-item> 
             <br> 
-            <ion-button type="submit" size="small" [disabled]="!signInForm.valid">Sign in</ion-button>
+            <ion-button type="submit" size="small" [disabled]="!signInForm.valid || processing">Sign in<ion-spinner *ngIf="processing"></ion-spinner>            </ion-button>
           </ion-card-content>
         </ion-card>
       </form>
@@ -55,7 +55,7 @@
               <ion-input required type="password" formControlName="password"></ion-input>
             </ion-item> 
             <br> 
-            <ion-button type="submit" size="small" [disabled]="!signUpForm.valid">Sign up</ion-button>
+            <ion-button type="submit" size="small" [disabled]="!signUpForm.valid || processing">Sign up<ion-spinner *ngIf="processing"></ion-spinner></ion-button>
           </ion-card-content>
         </ion-card>
       </form>

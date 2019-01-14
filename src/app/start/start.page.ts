@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Validators, FormBuilder, FormGroup  } from '@angular/forms';
+import { ApiService } from '../../api.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-start',
@@ -10,9 +12,9 @@ import { Validators, FormBuilder, FormGroup  } from '@angular/forms';
 export class StartPage implements OnInit {
   private signInForm: FormGroup;
   private signUpForm: FormGroup;
-  private userAction: any;
-  
-  constructor(private formBuilder: FormBuilder, private router: Router) { 
+  private userAction: string;
+  private processing: boolean = false;
+  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: ApiService, private toastCtrl: ToastController) { 
     this.userAction = 'signIn';
     this.signInForm = this.formBuilder.group({
       email : ['', Validators.compose([
@@ -42,14 +44,53 @@ export class StartPage implements OnInit {
   }
 
   signIn() {
-    console.log(this.signInForm.value.email);
-    console.log(this.signInForm.value.password);
-    this.router.navigate(['/dash/tab1']);
+    this.processing = true;
+    let email = this.signInForm.value.email;
+    let password = this.signInForm.value.password;
+    let json = {
+      "email": email,
+      "password": password
+    };
+    let apiToken = btoa(JSON.stringify(json));
+    this.apiService.getAuthenticatedUser(apiToken).subscribe((data) => {
+      let encrptedData = btoa(JSON.stringify(data));
+      document.cookie = "data="+encrptedData;
+      this.router.navigate(['/dash/tab1']);
+      this.processing = false;
+    }, (error) => {
+      this.presentToastWithOptions("Some error occured. Please make sure you have entered correct auth details.");
+      this.processing = false;
+    });
   }
 
   signUp() {
-    console.log(this.signUpForm.value.email);
-    console.log(this.signUpForm.value.password);
-    console.log(this.signUpForm.value.name);
+    this.processing = true;
+    let name = this.signUpForm.value.name;
+    let email = this.signUpForm.value.email;
+    let password = this.signUpForm.value.password;
+    let json = {
+      "name": name,
+      "email": email,
+      "password": password
+    }
+    this.apiService.signUp(json).subscribe((data) => {
+      let encrptedData = btoa(JSON.stringify(data));
+      document.cookie = "data="+encrptedData;
+      this.router.navigate(['/dash/tab1']);
+      this.processing = false;
+    }, (error) => {
+      this.presentToastWithOptions("Some error occured. Please make sure this email is not already registered with us.");
+      this.processing = false;
+    });
+  }
+
+  async presentToastWithOptions(message) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      showCloseButton: true,
+      position: 'bottom',
+      closeButtonText: 'Dismiss'
+    });
+    toast.present();
   }
 }
