@@ -23,11 +23,11 @@
           <ion-card-content>
             <ion-item>
               <ion-label position="floating">Email <span style="color: red">*</span></ion-label>
-              <ion-input required type="text" formControlName="email"></ion-input>
+              <ion-input autofocus="true" required="true" type="text" formControlName="email"></ion-input>
             </ion-item>      
             <ion-item>
               <ion-label position="floating">Password <span style="color: red">*</span></ion-label>
-              <ion-input required type="password" formControlName="password"></ion-input>
+              <ion-input required="true" type="password" formControlName="password"></ion-input>
             </ion-item> 
             <br> 
             <ion-button type="submit" size="small" [disabled]="!signInForm.valid || processing">Sign in<ion-spinner *ngIf="processing"></ion-spinner>            </ion-button>
@@ -43,16 +43,16 @@
           </ion-card-header>
           <ion-card-content>
             <ion-item>
-              <ion-label position="floating">Name <span style="color: red">*</span></ion-label>
-              <ion-input required type="text" formControlName="name"></ion-input>
+              <ion-label position="floating">Your Name <span style="color: red">*</span></ion-label>
+              <ion-input autofocus="true" required="true" type="text" formControlName="name"></ion-input>
             </ion-item>    
             <ion-item>
               <ion-label position="floating">Email <span style="color: red">*</span></ion-label>
-              <ion-input required type="text" formControlName="email"></ion-input>
+              <ion-input required="true" type="text" formControlName="email"></ion-input>
             </ion-item>      
             <ion-item>
-              <ion-label position="floating">Password <span style="color: red">*</span></ion-label>
-              <ion-input required type="password" formControlName="password"></ion-input>
+              <ion-label position="floating">Password (must be of at least 8 characters)<span style="color: red">*</span></ion-label>
+              <ion-input required="true" minlength="8" type="password" formControlName="password"></ion-input>
             </ion-item> 
             <br> 
             <ion-button type="submit" size="small" [disabled]="!signUpForm.valid || processing">Sign up<ion-spinner *ngIf="processing"></ion-spinner></ion-button>

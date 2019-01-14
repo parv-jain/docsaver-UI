@@ -7,18 +7,28 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+    
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle>Hi, {{data.name}}</ion-card-subtitle>
+      <ion-card-subtitle *ngIf="dataLoaded">Hi, {{data.name}}</ion-card-subtitle>
       <ion-card-title>Welcome to Doc Saver</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <p>Now easily manage all your documents in a single dashboard.</p>
     </ion-card-content>
   </ion-card>
+  <div *ngIf="dataLoaded">
   <ion-card *ngFor="let document of (data.documents)">
     <ion-card-content>
-      <h2><ion-icon color="medium" name="document"></ion-icon> Document Details</h2>
+      <h2><ion-icon color="primary" name="document"></ion-icon> Document Details</h2>
       <div (click)="view(document.document_url)">
         <ul *ngFor = "let item of parseJSON(document.document_info) | keyvalue">
           <li>{{replaceUnderscores(item.key) | titlecase}} :- {{item.value}}</li>
@@ -26,4 +36,5 @@
       </div>  
     </ion-card-content>
   </ion-card>
+  </div>
 </ion-content>

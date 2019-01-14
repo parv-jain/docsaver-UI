@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Validators, FormBuilder, FormGroup  } from '@angular/forms';
 import { ApiService } from '../../api.service';
 import { ToastController } from '@ionic/angular';
-
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-start',
   templateUrl: './start.page.html',
@@ -14,7 +14,7 @@ export class StartPage implements OnInit {
   private signUpForm: FormGroup;
   private userAction: string;
   private processing: boolean = false;
-  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: ApiService, private toastCtrl: ToastController) { 
+  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: ApiService, private toastCtrl: ToastController, private storage: Storage) { 
     this.userAction = 'signIn';
     this.signInForm = this.formBuilder.group({
       email : ['', Validators.compose([
@@ -41,20 +41,28 @@ export class StartPage implements OnInit {
   }
 
   ngOnInit() {
+    this.storage.get('data').then((data) => {
+      if(data != null){
+        this.storage.get('apiToken').then((data) => {
+          if(data != null)
+          this.router.navigate(['/dash/tab1']);
+        });
+      }
+    });
   }
 
   signIn() {
     this.processing = true;
     let email = this.signInForm.value.email;
     let password = this.signInForm.value.password;
-    let json = {
+    let apiToken = btoa(JSON.stringify({
       "email": email,
       "password": password
-    };
-    let apiToken = btoa(JSON.stringify(json));
+    }));
     this.apiService.getAuthenticatedUser(apiToken).subscribe((data) => {
       let encrptedData = btoa(JSON.stringify(data));
-      document.cookie = "data="+encrptedData;
+      this.storage.set("data", encrptedData);
+      this.storage.set("apiToken", apiToken);
       this.router.navigate(['/dash/tab1']);
       this.processing = false;
     }, (error) => {
@@ -74,8 +82,13 @@ export class StartPage implements OnInit {
       "password": password
     }
     this.apiService.signUp(json).subscribe((data) => {
+      let apiToken = btoa(JSON.stringify({
+        "email": email,
+        "password": password
+      }));  
       let encrptedData = btoa(JSON.stringify(data));
-      document.cookie = "data="+encrptedData;
+      this.storage.set("data", encrptedData);
+      this.storage.set("apiToken", apiToken);
       this.router.navigate(['/dash/tab1']);
       this.processing = false;
     }, (error) => {
@@ -89,6 +102,7 @@ export class StartPage implements OnInit {
       message: message,
       showCloseButton: true,
       position: 'bottom',
+      duration: 5000,
       closeButtonText: 'Dismiss'
     });
     toast.present();

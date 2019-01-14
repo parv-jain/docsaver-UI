@@ -7,10 +7,19 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>    
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Hi, {{data.name}}</ion-card-title>
-      <ion-card-subtitle><ion-icon name="mail"></ion-icon> {{data.email}}</ion-card-subtitle>
+      <ion-card-title *ngIf="dataLoaded">Hi, {{data.name}}</ion-card-title>
+      <ion-card-subtitle *ngIf="dataLoaded"><ion-icon color="primary" name="mail"></ion-icon> {{data.email}}</ion-card-subtitle>
+      <ion-button size="small" (click)="logout()">Logout</ion-button>
     </ion-card-header>
   </ion-card>
 </ion-content>

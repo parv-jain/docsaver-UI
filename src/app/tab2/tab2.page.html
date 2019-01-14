@@ -7,19 +7,28 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+    
   <form [formGroup]="addDocumentForm" (ngSubmit)="addDocument()">
     <ion-card>
       <ion-card-content>
         <ion-item>
           <ion-label position="floating">Document Title <span style="color: red">*</span></ion-label>
-          <ion-input required type="text" formControlName="document_title"></ion-input>
+          <ion-input autofocus="true" required=="true" type="text" formControlName="document_title"></ion-input>
         </ion-item>    
         <ion-item>
           <ion-label>Select Document Type <span style="color: red">*</span></ion-label>
-          <ion-select required placeholder="Select One" formControlName="document_type">
+          <ion-select required="true" placeholder="Select One" formControlName="document_type">
             <ion-select-option value="Aadhar Card">Aadhar Card</ion-select-option>
             <ion-select-option value="Voter Id Card">Voter Id Card</ion-select-option>
-            <ion-select-option value="Driving License">Voter Id Card</ion-select-option>
+            <ion-select-option value="Driving License">Driving License</ion-select-option>
             <ion-select-option value="PAN Card">PAN Card</ion-select-option>
             <ion-select-option value="Marksheet">Marksheet</ion-select-option>
           </ion-select>        
@@ -27,13 +36,13 @@
         <ion-item>
           <ion-label position="floating">Document Id Number </ion-label>
           <ion-input type="text" formControlName="document_id_number"></ion-input>
-        </ion-item> 
+        </ion-item>
         <ion-item>
-          <ion-label position="floating">Choose document (pdf only) <span style="color: red">*</span></ion-label>
-          <ion-input required type="file" formControlName="document"></ion-input>
+          <ion-label position="stacked">Choose document (pdf only) <span style="color: red">*</span></ion-label>
+          <input required="true" type="file" accept="application/pdf" (change)="changeListener($event)">
         </ion-item>   
         <br> 
-        <ion-button type="submit" size="small" [disabled]="!addDocumentForm.valid || processing">Sign up<ion-spinner *ngIf="processing"></ion-spinner></ion-button>
+        <ion-button type="submit" size="small" [disabled]="!addDocumentForm.valid || processing || !fileChosen">Add Document<ion-spinner *ngIf="processing"></ion-spinner></ion-button>
       </ion-card-content>
     </ion-card>
   </form>

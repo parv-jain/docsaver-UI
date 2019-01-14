@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-tab1',
@@ -7,8 +8,12 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
   private data: any;
-  constructor(){
-    this.data = JSON.parse(atob(document.cookie.replace('data=','')));
+  private dataLoaded: boolean = false;
+  constructor(private storage: Storage){
+    this.storage.get('data').then((data) => {
+      this.data = JSON.parse(atob(data));
+      this.dataLoaded = true;
+    });
   }
 
   parseJSON(json){
@@ -16,10 +21,20 @@ export class Tab1Page {
   }
 
   view(url){
-    console.log(url)
+    window.open(url);
   }
 
   replaceUnderscores(str){
     return str.replace(/[^a-z0-9]+/gi,' ');
+  }
+
+  doRefresh($event){
+    this.storage.get('data').then((data) => {
+      this.data = JSON.parse(atob(data));
+      this.dataLoaded = true;
+    });
+    setTimeout(() => {
+      $event.target.complete();
+    }, 2000);
   }
 }
