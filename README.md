@@ -7,3 +7,6 @@ Run `npm install`
 Run `ionic serve`
 App serve on `localhost:8100`
 
+## API Screenshots (Web App)
+View screenshots at `Screenshots/`
+
