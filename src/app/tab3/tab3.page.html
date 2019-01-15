@@ -19,7 +19,10 @@
     <ion-card-header>
       <ion-card-title *ngIf="dataLoaded">Hi, {{data.name}}</ion-card-title>
       <ion-card-subtitle *ngIf="dataLoaded"><ion-icon color="primary" name="mail"></ion-icon> {{data.email}}</ion-card-subtitle>
-      <ion-button size="small" (click)="logout()">Logout</ion-button>
     </ion-card-header>
+    <ion-card-content>
+      <p>Now easily manage all your documents in a single dashboard. Your added documents are listed below.</p>
+      <ion-button size="small" (click)="logout()">Logout</ion-button>
+    </ion-card-content>    
   </ion-card>
 </ion-content>

@@ -16,9 +16,12 @@ export class Tab2Page{
   private processing: boolean = false;
   private formData: FormData = new FormData();
   private fileChosen: boolean = false;
+  private dataLoaded: boolean = false;
+
   constructor(private formBuilder: FormBuilder, private apiService: ApiService, private toastCtrl: ToastController, private storage: Storage){
     this.storage.get('data').then((data) => {
       this.data = JSON.parse(atob(data));
+      this.dataLoaded = true;
     });
     this.storage.get('apiToken').then((data) => {
       this.apiToken = data;

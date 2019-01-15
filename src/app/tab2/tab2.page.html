@@ -16,6 +16,15 @@
     </ion-refresher-content>
   </ion-refresher>
     
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title *ngIf="dataLoaded">Hi, {{data.name}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Now easily manage all your documents in a single dashboard. Your can add documents by simply filling out form below.</p>
+    </ion-card-content>    
+  </ion-card>
+  
   <form [formGroup]="addDocumentForm" (ngSubmit)="addDocument()">
     <ion-card>
       <ion-card-content>

@@ -10,9 +10,10 @@ import { Router } from '@angular/router';
 export class Tab3Page{
   private data: any;
   private dataLoaded: boolean = false;
+  
   constructor(private storage: Storage, private router: Router){
     this.storage.get('data').then((data) => {
-      this.data = JSON.parse(atob(data));
+      this.data = JSON.parse(atob(data));      
       this.dataLoaded = true;
     });
   }
