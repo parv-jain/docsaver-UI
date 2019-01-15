@@ -8,6 +8,6 @@ Change baseUrl(of REST API) in src/api.service.ts
 Run `ionic serve`
 App serve on `localhost:8100`
 
-## API Screenshots (Web App)
+## APP Screenshots (Web App)
 View screenshots at `Screenshots/`
 
